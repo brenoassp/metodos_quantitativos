@@ -1,0 +1,1 @@
+ls -l -R | awk '{if(NF == 9) print $5}' > sizeFiles.txt
