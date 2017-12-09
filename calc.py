@@ -1,3 +1,5 @@
+from math import sqrt
+
 def avg(numbers):
 	len_numbers = len(numbers)
 	if len_numbers == 0:
@@ -8,7 +10,57 @@ def avg(numbers):
 	return sum_total/float(len_numbers)
 
 def variance(numbers):
-	return 1
+	average=avg(numbers)
+	squares=[]
+	for num in numbers:
+		squares.append((num - average) * (num - average))
+	return avg(squares)
+
+def standard_deviation(numbers):
+	var=variance(numbers)
+	return sqrt(var)
+
+def coefficient_of_variability(numbers):
+	average = avg(numbers)
+	std_deviation = standard_deviation(numbers)
+	return std_deviation/average
+
+def median(numbers):
+	numbers=sorted(numbers)
+	n = len(numbers)
+	if n%2 == 1:
+		return numbers[n//2]
+	else:
+		i = n//2
+		return (numbers[i-1] + numbers[i])/2
+
+def cdf(numbers):
+	numbers=sorted(numbers)
+	last = numbers[0]
+	total = len(numbers)
+	cnt = 0
+	for num in numbers:
+		if num != last:
+			print last, cnt/float(total)
+			cnt += 1
+			last = num
+		else:
+			cnt += 1
+	print last, cnt/float(total)
+
+def pdf(numbers):
+	numbers=sorted(numbers)
+	last = numbers[0]
+	total = len(numbers)
+	cnt = 0
+	for num in numbers:
+		if num != last:
+			print last, cnt/float(total)
+			cnt = 1
+			last = num
+		else:
+			cnt += 1
+	print last, cnt/float(total)
 
 if __name__ == "__main__":
 	import sys
@@ -22,6 +74,8 @@ if __name__ == "__main__":
 	parser.add_argument("--coefficient-of-variability", action="store_true", help="calculate coefficient of variability")
 	parser.add_argument("--median", action="store_true", help="calculate median")
 	parser.add_argument("--quartiles", action="store_true", help="calculate quartiles")
+	parser.add_argument("--cdf", action="store_true", help="calculate cdf")
+	parser.add_argument("--pdf", action="store_true", help="calculate pdf")
 	args = parser.parse_args()
 	try:
 		file = open(args.inputFile, 'r')
@@ -33,15 +87,34 @@ if __name__ == "__main__":
 			sys.exit()
 		if args.avg:
 			print(avg(values))
+			sys.exit()
 		if args.variance:
 			print('variancia')
+			print(variance(values))
+			sys.exit()
 		if args.std_deviation:
 			print('desvio padrao')
+			print(standard_deviation(values))
+			sys.exit()
 		if args.coefficient_of_variability:
 			print('coefficient-of-variability')
+			print(coefficient_of_variability(values))
+			sys.exit()
 		if args.median:
 			print('mediana')
+			print(median(values))
+			sys.exit()
 		if args.quartiles:
 			print('quartis')
-	except Exception:
+			sys.exit()
+		if args.cdf:
+			print('cdf')
+			cdf(values)
+			sys.exit()
+		if args.pdf:
+			print('pdf')
+			pdf(values)
+			sys.exit()
+	except Exception as e:
+		print(e)
 		print("Error: There's no file with the name '{}'".format(args.inputFile))
