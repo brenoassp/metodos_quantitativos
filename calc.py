@@ -34,19 +34,22 @@ def median(numbers):
 		i = n//2
 		return (numbers[i-1] + numbers[i])/2
 
-def cdf(numbers):
-	numbers=sorted(numbers)
+def cdf(numbers, gambiarra=False):
+	numbers = sorted(numbers)
 	last = numbers[0]
 	total = len(numbers)
 	cnt = 0
+	x = []
+	y = []
+	axis_x_lim = None
 	for num in numbers:
 		if num != last:
-			print last, cnt/float(total)
+			print(last, cnt/float(total))
 			cnt += 1
 			last = num
 		else:
 			cnt += 1
-	print last, cnt/float(total)
+	print(last, cnt/float(total))
 
 def pdf(numbers):
 	numbers=sorted(numbers)
@@ -55,12 +58,12 @@ def pdf(numbers):
 	cnt = 0
 	for num in numbers:
 		if num != last:
-			print last, cnt/float(total)
+			print(last, cnt/float(total))
 			cnt = 1
 			last = num
 		else:
 			cnt += 1
-	print last, cnt/float(total)
+	print(last, cnt/float(total))
 
 if __name__ == "__main__":
 	import sys
@@ -108,11 +111,9 @@ if __name__ == "__main__":
 			print('quartis')
 			sys.exit()
 		if args.cdf:
-			print('cdf')
 			cdf(values)
 			sys.exit()
 		if args.pdf:
-			print('pdf')
 			pdf(values)
 			sys.exit()
 	except Exception as e:
