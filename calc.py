@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, log10
 
 def avg(numbers):
 	len_numbers = len(numbers)
@@ -53,17 +53,19 @@ def cdf(numbers, gambiarra=False):
 
 def pdf(numbers):
 	numbers=sorted(numbers)
+	if numbers.count(0) > 0:
+		numbers = numbers[numbers.count(0):]
 	last = numbers[0]
 	total = len(numbers)
 	cnt = 0
 	for num in numbers:
 		if num != last:
-			print(last, cnt/float(total))
+			print(log10(last), cnt/float(total))
 			cnt = 1
 			last = num
 		else:
 			cnt += 1
-	print(last, cnt/float(total))
+	print(log10(last), cnt/float(total))
 
 if __name__ == "__main__":
 	import sys
