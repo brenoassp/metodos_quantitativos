@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+import matplotlib	
 
 if __name__ == "__main__":
 	import sys
@@ -10,20 +11,21 @@ if __name__ == "__main__":
 		file = open(args.inputFile, 'r')
 		axis_x = []
 		axis_y = []
-		axis_x_lim = None
 		for line in file.readlines():
 			splited_line = line.split()
 			current_x = float(splited_line[0])
 			current_y = float(splited_line[1])
 			axis_x.append(current_x)
 			axis_y.append(current_y)
-		if axis_x_lim is None:
-			plt.plot(axis_x,axis_y)
-			plt.title('Pdf of file sizes')
-			plt.xscale('log')
-			plt.xlim(1, 10)
-			#plt.xticks([0.01, 0.1, 1, 10])
-			plt.show()
+		plt.title('Pdf of file sizes')
+		plt.xscale('log')
+		plt.xlabel('size(bytes) log10')
+		plt.ylabel('%')
+		plt.xlim(1, 10)
+		plt.plot(axis_x,axis_y)
+		plt.xticks([1, 10])
+		plt.savefig('pdf.png')
+		plt.show()		
 	except Exception as e:
 		print(e)
 		print("Error: There's no file with the name '{}'".format(args.inputFile))

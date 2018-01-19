@@ -6,6 +6,7 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument('inputFile', help="Text file that contains the numbers that will be used to calculate the cdf (one pair per line, e.g, 1 0.1)", type=str)
 	parser.add_argument("--limit-axis", action="store", help="plot cdf with chosen y axis", type=float)
+	parser.add_argument("--title", action="store", help="chart title", type=str)
 	args = parser.parse_args()
 	try:
 		file = open(args.inputFile, 'r')
@@ -23,12 +24,20 @@ if __name__ == "__main__":
 					axis_x_lim = current_x
 		if axis_x_lim is None:
 			plt.plot(axis_x,axis_y)
-			plt.title('Cdf of file sizes')
+			if not args.title:
+				plt.title('Cdf of file sizes')
+			else:
+				plt.title(args.title)
+			plt.savefig('cdf.png')
 			plt.show()
 		else:
 			plt.plot(axis_x,axis_y)
 			plt.axis([0, axis_x_lim, 0, 1])
-			plt.title('Cdf of file sizes')
+			if not args.title:
+				plt.title('Cdf of file sizes')
+			else:
+				plt.title(args.title)
+			plt.savefig('cdf.png')
 			plt.show()
 	except Exception as e:
 		print(e)

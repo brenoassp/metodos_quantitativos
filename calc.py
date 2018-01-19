@@ -34,7 +34,7 @@ def median(numbers):
 		i = n//2
 		return (numbers[i-1] + numbers[i])/2
 
-def cdf(numbers, gambiarra=False):
+def cdf(numbers):
 	numbers = sorted(numbers)
 	last = numbers[0]
 	total = len(numbers)
